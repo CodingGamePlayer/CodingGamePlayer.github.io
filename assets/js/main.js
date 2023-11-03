@@ -296,10 +296,51 @@
   });
 
   document
-    .querySelector(".ahaproject_portfolio")
-    .addEventListener("click", function (event) {
-      event.preventDefault();
-      window.location.href =
-        "https://pds3.saramin.co.kr/webfile/download_memberfile_security.php?appmode=slide_webview&file=person%2Fresume_filebox%2F202311%2F02%2Fs3hwvu_bg23-ygzgs9_resume_filebox.pdf&name2=%EC%95%84%ED%95%98%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8.pdf";
+    .querySelectorAll(".ahaproject_portfolio")
+    .forEach(function (element) {
+      element.addEventListener("click", function (event) {
+        event.preventDefault(); // Stop the default action of the anchor tag
+
+        // Set the path to the pdf file
+        const filePath = "./assets/pdf/아하프로젝트.pdf";
+
+        // Create a new anchor tag
+        const downloadAnchorNode = document.createElement("a");
+        downloadAnchorNode.setAttribute("href", filePath);
+        downloadAnchorNode.setAttribute("download", "아하프로젝트.pdf"); // The file name for download
+
+        // Append anchor to the body
+        document.body.appendChild(downloadAnchorNode); // Required for Firefox
+
+        // Trigger click event on the new anchor
+        downloadAnchorNode.click();
+
+        // Remove the anchor from the body after download
+        downloadAnchorNode.remove();
+      });
     });
+
+  // Add click event listener
+  document.querySelectorAll(".web-gis_portfolio").forEach(function (element) {
+    element.addEventListener("click", function (event) {
+      event.preventDefault(); // Stop the default action of the anchor tag
+
+      // Set the path to the pdf file
+      const filePath = "./assets/pdf/web-gis.pdf";
+
+      // Create a new anchor tag
+      const downloadAnchorNode = document.createElement("a");
+      downloadAnchorNode.setAttribute("href", filePath);
+      downloadAnchorNode.setAttribute("download", "web-gis.pdf"); // The file name for download
+
+      // Append anchor to the body
+      document.body.appendChild(downloadAnchorNode); // Required for Firefox
+
+      // Trigger click event on the new anchor
+      downloadAnchorNode.click();
+
+      // Remove the anchor from the body after download
+      downloadAnchorNode.remove();
+    });
+  });
 })();

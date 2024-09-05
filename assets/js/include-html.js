@@ -3,7 +3,6 @@ function includeHTML() {
   for (let i = 0; i < includes.length; i++) {
     const element = includes[i];
     const file = element.getAttribute("id")?.replace("-placeholder", ".html");
-    console.log(file);
     if (file) {
       fetch(`components/${file}`)
         .then((response) => response.text())

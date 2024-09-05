@@ -9,8 +9,8 @@
 @import url("../vendor/swiper/swiper-bundle.min.css");
 
 /* Template Main CSS File */
-@import url("style.css");
-@import url("calendar.css");
+/* @import url("style.css");
+@import url("calendar.css"); */
 
 /* 추가적인 커스텀 스타일 */
 body {

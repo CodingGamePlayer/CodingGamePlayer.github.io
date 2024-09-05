@@ -48,9 +48,8 @@ class StudyCalendar {
           const date = `${year}/${String(month + 1).padStart(2, "0")}/${String(
             day
           ).padStart(2, "0")}`;
-          const hasStudy = await this.checkStudyFile(date);
           const isToday = this.isToday(year, month, day);
-          html += `<td class="calendar-day ${hasStudy ? "has-study" : ""} ${
+          html += `<td class="calendar-day ${
             isToday ? "today" : ""
           }" data-date="${date}">
             <span class="day-number">${day}</span>
@@ -64,6 +63,38 @@ class StudyCalendar {
 
     html += "</tbody></table>";
     this.calendarElement.innerHTML = html;
+
+    // 비동기적으로 학습 파일 확인
+    this.checkStudyFiles(year, month);
+  }
+
+  async checkStudyFiles(year, month) {
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    const promises = [];
+
+    for (let day = 1; day <= lastDay; day++) {
+      const date = `${year}/${String(month + 1).padStart(2, "0")}/${String(
+        day
+      ).padStart(2, "0")}`;
+      promises.push(this.checkStudyFile(date));
+    }
+
+    const results = await Promise.all(promises);
+
+    results.forEach((hasStudy, index) => {
+      if (hasStudy) {
+        const day = index + 1;
+        const date = `${year}/${String(month + 1).padStart(2, "0")}/${String(
+          day
+        ).padStart(2, "0")}`;
+        const cell = this.calendarElement.querySelector(
+          `[data-date="${date}"]`
+        );
+        if (cell) {
+          cell.classList.add("has-study");
+        }
+      }
+    });
   }
 
   async checkStudyFile(date) {
@@ -71,7 +102,7 @@ class StudyCalendar {
     const filePath = `study/${year}/${month}/${day}.md`;
 
     try {
-      const response = await fetch(filePath);
+      const response = await fetch(filePath, { method: "HEAD" });
       return response.ok;
     } catch (error) {
       console.error("Error checking study file:", error);

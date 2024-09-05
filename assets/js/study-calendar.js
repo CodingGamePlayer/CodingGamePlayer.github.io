@@ -141,4 +141,6 @@ class StudyCalendar {
 document.addEventListener("DOMContentLoaded", () => {
   const calendar = new StudyCalendar();
   calendar.init();
+  document.getElementById("study-calendar").style.display = "block";
+  document.getElementById("study-content").style.display = "block";
 });

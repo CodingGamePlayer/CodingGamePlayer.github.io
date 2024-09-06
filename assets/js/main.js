@@ -389,12 +389,6 @@
 
   // Call initPortfolio after dynamic content is loaded
   window.addEventListener("load", function () {
-    if (typeof includeHTML === "function") {
-      includeHTML().then(() => {
-        initPortfolio();
-      });
-    } else {
-      initPortfolio();
-    }
+    includeHTML();
   });
 })();

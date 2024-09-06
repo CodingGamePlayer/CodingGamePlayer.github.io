@@ -343,4 +343,58 @@
       downloadAnchorNode.remove();
     });
   });
+
+  function initPortfolio() {
+    let portfolioContainer = select(".portfolio-container");
+    if (portfolioContainer) {
+      let portfolioIsotope = new Isotope(portfolioContainer, {
+        itemSelector: ".portfolio-item",
+      });
+
+      let portfolioFilters = select("#portfolio-flters li", true);
+
+      on(
+        "click",
+        "#portfolio-flters li",
+        function (e) {
+          e.preventDefault();
+          portfolioFilters.forEach(function (el) {
+            el.classList.remove("filter-active");
+          });
+          this.classList.add("filter-active");
+
+          portfolioIsotope.arrange({
+            filter: this.getAttribute("data-filter"),
+          });
+          portfolioIsotope.on("arrangeComplete", function () {
+            AOS.refresh();
+          });
+        },
+        true
+      );
+    }
+
+    // Initiate portfolio lightbox
+    const portfolioLightbox = GLightbox({
+      selector: ".portfolio-lightbox",
+    });
+
+    // Initiate portfolio details lightbox
+    const portfolioDetailsLightbox = GLightbox({
+      selector: ".portfolio-details-lightbox",
+      width: "90%",
+      height: "90vh",
+    });
+  }
+
+  // Call initPortfolio after dynamic content is loaded
+  window.addEventListener("load", function () {
+    if (typeof includeHTML === "function") {
+      includeHTML().then(() => {
+        initPortfolio();
+      });
+    } else {
+      initPortfolio();
+    }
+  });
 })();
